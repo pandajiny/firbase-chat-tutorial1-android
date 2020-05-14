@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "988730688581",
+    "firebase_url": "https://chat-tutorial1.firebaseio.com",
+    "project_id": "chat-tutorial1",
+    "storage_bucket": "chat-tutorial1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988730688581:android:d4a38073d4109fb823cf2c",
+        "android_client_info": {
+          "package_name": "com.example.chattutoria1android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988730688581-6698be3r1j9uik271o0academp3dvu2c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chattutoria1android",
+            "certificate_hash": "96fce61d5f3417fe93e04f81ab9bbcf09c8d7b4b"
+          }
+        },
+        {
+          "client_id": "988730688581-ig6iac36p60kme4jkfndl3dgbfhnse7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiJjMEP0HJ6HwgyBcQ0S7T_XZvfnekGTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988730688581-ig6iac36p60kme4jkfndl3dgbfhnse7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
