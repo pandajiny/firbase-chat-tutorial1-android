@@ -2,39 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/frameLayout7"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ChatFragment">
+    android:layout_height="match_parent"
+    tools:context=".Fragment.Profile.UserProfileFragment" >
 
-    <TextView
-        android:id="@+id/senderText"
+    <ImageButton
+        android:id="@+id/profileImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="sender"
+        android:src="@drawable/ic_person_outline_black_24dp"
+        android:tint="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/contentInputText"
+        android:id="@+id/myProfileNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="content"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderText" />
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="timestamp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="name"
+        app:layout_constraintStart_toEndOf="@+id/profileImageButton"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

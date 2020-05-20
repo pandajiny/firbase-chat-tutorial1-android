@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+import com.example.chattutoria1android.Realm.Chat
+import com.example.chattutoria1android.Realm.ChatLog
+import com.example.chattutoria1android.Realm.ChatRealmAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -61,7 +64,11 @@ class ChatActivity : AppCompatActivity() {
         startSyncChatLog()
 
 //        set Adapter to RealmRecyclerView Object
-        adapter = ChatRealmAdapter(this, realmResult, true)
+        adapter = ChatRealmAdapter(
+            this,
+            realmResult,
+            true
+        )
         realmRecyclerView.setAdapter(adapter)
 //        set the scroll position as bottom.
         scrollToEnd()

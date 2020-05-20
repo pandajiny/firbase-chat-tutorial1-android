@@ -1,8 +1,7 @@
-package com.example.chattutoria1android
+package com.example.chattutoria1android.Realm
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.sql.Timestamp
 
 open class Chat(
     @PrimaryKey var key: String = "",
