@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout7"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragment.Profile.UserProfileFragment" >
+    android:layout_height="wrap_content"
+    tools:context=".Profile.UserProfileFragment">
 
     <ImageButton
         android:id="@+id/profileImageButton"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/myProfileNameTextView"
+        android:id="@+id/userProfileNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.chattutoria1android.ChatListActivity
 import com.example.chattutoria1android.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 

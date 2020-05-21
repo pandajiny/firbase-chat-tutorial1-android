@@ -1,6 +1,5 @@
 package com.example.chattutoria1android
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -8,20 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.toast
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
-import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
-import com.google.android.material.internal.ContextUtils.getActivity
-import com.google.firebase.auth.FirebaseUser
+import com.example.chattutoria1android.Database.UserProfile
+import com.example.chattutoria1android.Login.LoginActivity
+import com.example.chattutoria1android.Profile.ProfileActivity
+import com.example.chattutoria1android.Profile.ProfileEditActivity
+import com.example.chattutoria1android.UserSearch.UserSearchActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import io.realm.Realm
-import io.realm.Sort
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         database = Firebase.database.reference
 
         checkUser()
+
+        findViewById<Button>(R.id.mainSearchButton).setOnClickListener {
+            startActivity(Intent(this, UserSearchActivity::class.java))
+        }
     }
 
     private fun checkUser() {
@@ -55,12 +54,13 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val name: String? = snapshot.child("/name").getValue<String>()
-                        val email: String? = snapshot.child("/email").getValue<String>()
-                        if (email == null || name == null) {
-                            toast("Please Fill the Profile Form")
-                            Log.w("Profile Empty", "${currentUser!!.uid} has no Profile!")
-                            startProfileActivity()
+                        if (snapshot.exists()) {
+                            Log.w(
+                                "currentUser",
+                                snapshot.children.first().getValue<UserProfile>().toString()
+                            )
+                        } else {
+                            startProfileEditActivity()
                         }
                     }
 
@@ -68,8 +68,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startProfileActivity() {
-        startActivity(Intent(this, ProfileActivity::class.java))
+    private fun startProfileEditActivity() {
+        val intent = Intent(this, ProfileEditActivity::class.java)
+        intent.putExtra("uid", auth.currentUser!!.uid)
+        startActivity(intent)
     }
 }
-

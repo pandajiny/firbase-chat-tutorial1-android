@@ -1,4 +1,4 @@
-package com.example.chattutoria1android.Fragment.Navigation
+package com.example.chattutoria1android.Nav
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.chattutoria1android.*
+import com.example.chattutoria1android.Profile.ProfileActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,26 +47,11 @@ class NavigationFragment : Fragment() {
         profileButton.setOnClickListener {
             activity?.let {
                 val intent = Intent(it, ProfileActivity::class.java)
+                intent.putExtra("uid", Firebase.auth.currentUser?.uid)
                 it.startActivity(intent)
             }
         }
 
-        val chatListButton = rootView.findViewById<Button>(R.id.navChatListButton)
-        chatListButton.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, ChatListActivity::class.java)
-                it.startActivity(intent)
-            }
-        }
-
-
-        val friendsListButton = rootView.findViewById<Button>(R.id.navFriendsListButton)
-        friendsListButton.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, FriendsListActivity::class.java)
-                it.startActivity(intent)
-            }
-        }
 
         val userButton = rootView.findViewById<Button>(R.id.navUserButton)
         userButton.setOnClickListener {
