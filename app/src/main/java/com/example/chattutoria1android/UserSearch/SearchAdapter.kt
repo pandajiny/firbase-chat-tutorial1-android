@@ -47,11 +47,20 @@ class SearchAdapter(private var userList: ArrayList<UserComponent>, context: Con
         holder.itemView.findViewById<TextView>(R.id.userProfileNameText).text =
             filteredList[position].name
         holder.itemView.findViewById<TextView>(R.id.userProfileNameText).setOnClickListener {
-            val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("uid", filteredList[position].uid)
-            context.startActivity(intent)
+            startProfileActivityWithUid(filteredList[position].uid)
         }
 
+    }
+
+    private fun startProfileActivityWithUid(uid: String?) {
+        if (uid != null) {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("uid", uid)
+            Log.w("StartActivity", "Profile Activity with $uid")
+            context.startActivity(intent)
+        } else {
+            throw error("not have uid")
+        }
     }
 
     override fun getFilter(): Filter {

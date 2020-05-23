@@ -49,7 +49,7 @@ class UserSearchActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     val userProfile = it.child("Profile").children.first()?.getValue<UserProfile>()
-                    userList.add(UserComponent(currentUser.uid, userProfile?.name))
+                    userList.add(UserComponent(userProfile?.uid, userProfile?.name))
                 }
             }
         })

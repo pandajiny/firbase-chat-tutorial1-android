@@ -24,14 +24,13 @@ class ProfileActivity : AppCompatActivity() {
 //    private val realm: Realm = Realm.getDefaultInstance()
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var currentUser: FirebaseUser
     private lateinit var database: DatabaseReference
+    private lateinit var myFriendsReference: DatabaseReference
+
 
     lateinit var currentProfile: UserProfile
 
-    lateinit var name: String
-    lateinit var email: String
-    lateinit var status: String
-    lateinit var key: String
 
     var isMine: Boolean = false
 
@@ -44,11 +43,12 @@ class ProfileActivity : AppCompatActivity() {
         database = Firebase.database.reference
 
 //        get Auth User
-        val currentUser = getAuthUser()
+        currentUser = getAuthUser()
 
 //        get uid from intent
         var bundle = intent.extras
         if (bundle?.getString("uid") != null) {
+            Log.w("Activity Started", "ProfileActivity with ${bundle.getString("uid")}")
 //            get Profile from intent's uid
             if (currentUser.uid == bundle.getString("uid")!!) {
                 isMine = true
@@ -62,12 +62,7 @@ class ProfileActivity : AppCompatActivity() {
 
         val addFab = findViewById<FloatingActionButton>(R.id.profileAddFab)
         addFab.setOnClickListener {
-            val key = database.child("Users/${currentUser.uid}/FriendsList").push().key
-            val updateMap = mapOf<String, String>(
-                "Users/${auth.currentUser!!.uid}/FriendsList/${key}" to currentProfile.uid
-            )
-
-            database.updateChildren(updateMap)
+            addFriend()
         }
 
         val editFab = findViewById<FloatingActionButton>(R.id.profileEditFab)
@@ -78,6 +73,18 @@ class ProfileActivity : AppCompatActivity() {
             )
             startActivity(intent)
             finish()
+        }
+    }
+
+    private fun addFriend() {
+        val key = myFriendsReference.push().key
+        if (!key.isNullOrEmpty()) {
+            val updateMap = mapOf<String, UserProfile>(
+                key to currentProfile
+            )
+            myFriendsReference.updateChildren(updateMap)
+        } else {
+            Log.e("db error", "cannot get db push key")
         }
     }
 
@@ -129,6 +136,9 @@ class ProfileActivity : AppCompatActivity() {
     private fun getAuthUser(): FirebaseUser {
         val currentUser = auth.currentUser
         if (currentUser != null) {
+            myFriendsReference =
+                Firebase.database.getReference("Users/${auth.currentUser!!.uid}/Friends")
+            myFriendsReference.keepSynced(true)
             return currentUser
         } else {
             throw error("Please Login First")

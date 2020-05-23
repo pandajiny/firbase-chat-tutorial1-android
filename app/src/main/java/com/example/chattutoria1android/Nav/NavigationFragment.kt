@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.chattutoria1android.*
+import com.example.chattutoria1android.Friends.FriendsActivity
 import com.example.chattutoria1android.Profile.ProfileActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -52,6 +53,13 @@ class NavigationFragment : Fragment() {
             }
         }
 
+
+        rootView.findViewById<Button>(R.id.navFriendsListButton).setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, FriendsActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
 
         val userButton = rootView.findViewById<Button>(R.id.navUserButton)
         userButton.setOnClickListener {

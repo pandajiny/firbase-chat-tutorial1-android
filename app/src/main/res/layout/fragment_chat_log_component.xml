@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/chatLogComponenetLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ChatFragment">
+    tools:context=".Chat.ChatRoom.ChatLogComponentFragment">
 
     <TextView
-        android:id="@+id/senderText"
+        android:id="@+id/chatLogSenderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/contentInputText"
+        android:id="@+id/chatLogContentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,10 +26,10 @@
         android:text="content"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/senderText" />
+        app:layout_constraintTop_toBottomOf="@+id/chatLogSenderText" />
 
     <TextView
-        android:id="@+id/timeText"
+        android:id="@+id/chatLogTimestampText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -37,4 +37,13 @@
         android:text="timestamp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatLogContentText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

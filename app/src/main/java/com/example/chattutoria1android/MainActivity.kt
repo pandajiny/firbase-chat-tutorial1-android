@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (supportActionBar != null) {
+            supportActionBar!!.hide()
+        }
 
 //        firebase init
         auth = Firebase.auth
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.mainSearchButton).setOnClickListener {
             startActivity(Intent(this, UserSearchActivity::class.java))
         }
+
     }
 
     private fun checkUser() {
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                                 snapshot.children.first().getValue<UserProfile>().toString()
                             )
                         } else {
-                            startProfileEditActivity()
+                            startMyProfileEditActivity()
                         }
                     }
 
@@ -68,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startProfileEditActivity() {
+    private fun startMyProfileEditActivity() {
         val intent = Intent(this, ProfileEditActivity::class.java)
         intent.putExtra("uid", auth.currentUser!!.uid)
         startActivity(intent)
