@@ -157,6 +157,7 @@ class ChatRoomActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getChatRoomInformation(key: String) {
 //        set current Chat Room with ChatRoomKey
         currentChatRoomReference = Firebase.database.getReference("ChatRooms/${key}")
@@ -198,13 +199,14 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    try {
-                        snapshot.children.last().getValue<ChatLog>()?.let { chatLogs.add(it) }
-                    } catch (e: Error) {
-                        Log.e("db error", e.message)
+                    if (snapshot.exists()) {
+                        try {
+                            snapshot.children.last().getValue<ChatLog>()?.let { chatLogs.add(it) }
+                        } catch (e: Error) {
+                            Log.e("db error", e.message)
+                        }
                     }
                 }
-
             })
     }
 
@@ -231,7 +233,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val friendChatRoomRefUpdateMap = mapOf<String, Any>(
             friendKey to friendChatRoomRef
         )
-        Firebase.database.reference.child("Users/${uid}/ChatRooms")
+        Firebase.database.reference.child("Users/${uid}/ChatRooms/Single")
             .updateChildren(friendChatRoomRefUpdateMap)
 
         mySingleChatRoomsListReference.updateChildren(myChatRoomRefUpdateMap)
