@@ -17,7 +17,7 @@ import com.example.chattutoria1android.Database.UserComponent
 import com.example.chattutoria1android.Database.UserProfile
 import com.example.chattutoria1android.Profile.ProfileActivity
 import com.example.chattutoria1android.R
-import kotlinx.android.synthetic.main.fragment_user_profile_component.view.*
+import kotlinx.android.synthetic.main.fragment_profile_list_component.view.*
 
 class SearchAdapter(private var userList: ArrayList<UserComponent>, context: Context) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(), Filterable {
@@ -34,7 +34,7 @@ class SearchAdapter(private var userList: ArrayList<UserComponent>, context: Con
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_user_profile_component, parent, false) as View
+            .inflate(R.layout.fragment_profile_list_component, parent, false) as View
         return SearchViewHolder(itemView)
     }
 
@@ -44,9 +44,9 @@ class SearchAdapter(private var userList: ArrayList<UserComponent>, context: Con
 
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        holder.itemView.findViewById<TextView>(R.id.userProfileNameText).text =
+        holder.itemView.findViewById<TextView>(R.id.profileListComponentProfileNameText).text =
             filteredList[position].name
-        holder.itemView.findViewById<TextView>(R.id.userProfileNameText).setOnClickListener {
+        holder.itemView.setOnClickListener {
             startProfileActivityWithUid(filteredList[position].uid)
         }
 

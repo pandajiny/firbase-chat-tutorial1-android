@@ -1,4 +1,4 @@
-package com.example.chattutoria1android.Chat.ChatList
+package com.example.chattutoria1android.Chat
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,10 +15,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ChatRoomComponentFragment.newInstance] factory method to
+ * Use the [ChatLogComponentFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ChatRoomComponentFragment : Fragment() {
+class ChatLogComponentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -36,7 +36,7 @@ class ChatRoomComponentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_room_component, container, false)
+        return inflater.inflate(R.layout.fragment_chat_log_component, container, false)
     }
 
     companion object {
@@ -46,12 +46,12 @@ class ChatRoomComponentFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatRoomComponentFragment.
+         * @return A new instance of fragment ChatLogComponentFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ChatRoomComponentFragment().apply {
+            ChatLogComponentFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

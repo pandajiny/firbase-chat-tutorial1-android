@@ -3,4 +3,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="friends_title">Friends</string>
+    <string name="friends_my_profile_default_name">##MYNAME##</string>
+    <string name="friends_my_profile_default_status">##STATUS_MESSAGE##</string>
+    <string name="friends_group_title_friends">Friends</string>
+
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_default_name_text">##NAME##</string>
+    <string name="profile_default_email_text">##EMAIL@DOT.COM##</string>
+    <string name="profile_default_status_text">##STATUS##</string>
+
 </resources>

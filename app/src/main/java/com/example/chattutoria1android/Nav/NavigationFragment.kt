@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.chattutoria1android.*
-import com.example.chattutoria1android.Chat.ChatList.ChatListActivity
+import com.example.chattutoria1android.ChatList.ChatListActivity
 import com.example.chattutoria1android.Friends.FriendsActivity
 import com.example.chattutoria1android.Profile.ProfileActivity
 import com.google.firebase.auth.ktx.auth

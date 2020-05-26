@@ -5,7 +5,7 @@
     android:id="@+id/chatLogComponenetLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Chat.ChatRoom.ChatLogComponentFragment">
+    tools:context=".Chat.ChatLogComponentFragment">
 
     <TextView
         android:id="@+id/chatLogSenderText"

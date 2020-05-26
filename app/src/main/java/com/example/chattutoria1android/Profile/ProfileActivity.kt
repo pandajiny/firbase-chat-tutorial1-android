@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import com.example.chattutoria1android.Chat.ChatActivity
 import com.example.chattutoria1android.Database.UserProfile
 import com.example.chattutoria1android.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,19 +18,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.lang.NullPointerException
 
 class ProfileActivity : AppCompatActivity() {
 
 //    private val realm: Realm = Realm.getDefaultInstance()
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var currentUser: FirebaseUser
-    private lateinit var database: DatabaseReference
+    private lateinit var accountsReference: DatabaseReference
     private lateinit var myFriendsReference: DatabaseReference
-
-
-    lateinit var currentProfile: UserProfile
-
 
     var isMine: Boolean = false
 
@@ -38,49 +34,131 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-//        init firebase
-        auth = Firebase.auth
-        database = Firebase.database.reference
+//        hide action bar
+        if (supportActionBar != null) {
+            supportActionBar!!.hide()
+        }
 
-//        get Auth User
-        currentUser = getAuthUser()
+//        chat require friends
+        findViewById<FloatingActionButton>(R.id.profileChatFAB).hide()
+//        edit require mine
+        findViewById<FloatingActionButton>(R.id.profileEditFAB).hide()
+//        only Add FAB default Show
+
+//        init firebase auth
+        auth = Firebase.auth
+        checkAuth()
+        val currentUser = auth.currentUser!!
+
+        accountsReference = Firebase.database.getReference("Users")
+        myFriendsReference = accountsReference.child("${auth.currentUser!!.uid}/Friends")
+
 
 //        get uid from intent
-        var bundle = intent.extras
-        if (bundle?.getString("uid") != null) {
-            Log.w("Activity Started", "ProfileActivity with ${bundle.getString("uid")}")
-//            get Profile from intent's uid
-            if (currentUser.uid == bundle.getString("uid")!!) {
-                isMine = true
+        var profileUid: String = try {
+            intent.extras!!.getString("uid")!!
+        } catch (e: NullPointerException) {
+//            if not, wrong req
+            throw error(e.message!!)
+        }
+
+//        if auth.currentUser.uid == provided uod
+        if (currentUser.uid == profileUid) {
+            isMine = true
+        }
+
+//        get profile and update ui
+        getProfile(profileUid)
+    }
+
+    private fun getProfile(uid: String) {
+        accountsReference.child("${uid}/Profile")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("database error", error.message)
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val result = try {
+                        snapshot.children.first().getValue<UserProfile>()!!
+                    } catch (e: Error) {
+                        Log.e("db error", e.message)
+                        if (isMine) {
+                            requireEditProfile()
+                        } else {
+                            throw error("wrong request : $uid")
+                        }
+                    } as UserProfile
+                    checkMyFriends(result.uid)
+                    updateUI(result)
+                }
+            })
+    }
+
+    private fun checkMyFriends(uid: String) {
+        myFriendsReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
             }
-            getProfile(bundle.getString("uid")!!)
-        } else {
-//            if there's no uid
-            throw error("not have uid intent")
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    val result = try {
+                        it.getValue<UserProfile>()!!
+                    } catch (e: Error) {
+                        Log.e("db error", e.message)
+                    } as UserProfile
+                    if (result.uid == uid) {
+                        findViewById<FloatingActionButton>(R.id.profileAddFAB).hide()
+                        findViewById<FloatingActionButton>(R.id.profileChatFAB).show()
+                    }
+                }
+            }
+
+        })
+    }
+
+    private fun updateUI(profile: UserProfile) {
+//        update text
+        val nameText = findViewById<TextView>(R.id.profileNameText)
+        nameText.text = profile.name
+        val emailText = findViewById<TextView>(R.id.profileEmailText)
+        emailText.text = profile.email
+        val statusText = findViewById<TextView>(R.id.profileStatusText)
+        statusText.text = profile.status
+
+//        set visibility for each FAb
+        if (isMine) {
+//            if current profile is mine, show edit button and hide else
+            findViewById<FloatingActionButton>(R.id.profileEditFAB).show()
+            findViewById<FloatingActionButton>(R.id.profileAddFAB).hide()
         }
 
 
-        val addFab = findViewById<FloatingActionButton>(R.id.profileAddFab)
-        addFab.setOnClickListener {
-            addFriend()
+//        add click listener each FAB
+        findViewById<FloatingActionButton>(R.id.profileAddFAB).setOnClickListener {
+            addFriend(profile)
         }
 
-        val editFab = findViewById<FloatingActionButton>(R.id.profileEditFab)
-        editFab.setOnClickListener {
+        findViewById<FloatingActionButton>(R.id.profileChatFAB).setOnClickListener {
+            startChat(profile.uid)
+        }
+
+        findViewById<FloatingActionButton>(R.id.profileEditFAB).setOnClickListener {
             val intent = Intent(this, ProfileEditActivity::class.java)
             intent.putExtra(
-                "uid", currentUser.uid
+                "uid", profile.uid
             )
             startActivity(intent)
             finish()
         }
     }
 
-    private fun addFriend() {
+    private fun addFriend(profile: UserProfile) {
         val key = myFriendsReference.push().key
         if (!key.isNullOrEmpty()) {
             val updateMap = mapOf<String, UserProfile>(
-                key to currentProfile
+                key to profile
             )
             myFriendsReference.updateChildren(updateMap)
         } else {
@@ -88,41 +166,10 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI() {
-        val nameText = findViewById<TextView>(R.id.profileNameText)
-        nameText.text = currentProfile.name
-        val emailText = findViewById<TextView>(R.id.profileEmailText)
-        emailText.text = currentProfile.email
-        val statusText = findViewById<TextView>(R.id.profileStatusText)
-        statusText.text = currentProfile.status
-    }
-
-
-    private fun getProfile(uid: String) {
-        if (auth.currentUser != null) {
-            database.child("Users/${uid}/Profile")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("database error", error.message)
-                    }
-
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        when {
-                            snapshot.exists() -> {
-                                currentProfile = snapshot.children.first().getValue<UserProfile>()!!
-                                updateUI()
-                            }
-                            isMine -> {
-                                requireEditProfile()
-                            }
-                            else -> {
-                                throw error("Wrong request, user doesn't have a profile")
-                            }
-                        }
-                        Log.w("currentProfile", snapshot.children.first().getValue().toString())
-                    }
-                })
-        }
+    private fun startChat(uid: String) {
+        val intent = Intent(this, ChatActivity::class.java)
+        intent.putExtra("uid", uid)
+        startActivity(intent)
     }
 
     //    only for mine
@@ -133,15 +180,9 @@ class ProfileActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun getAuthUser(): FirebaseUser {
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            myFriendsReference =
-                Firebase.database.getReference("Users/${auth.currentUser!!.uid}/Friends")
-            myFriendsReference.keepSynced(true)
-            return currentUser
-        } else {
-            throw error("Please Login First")
+    private fun checkAuth() {
+        if (auth.currentUser == null) {
+            throw error("not auth")
         }
     }
 }

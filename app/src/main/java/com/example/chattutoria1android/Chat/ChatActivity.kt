@@ -1,30 +1,24 @@
-package com.example.chattutoria1android.Chat.ChatRoom
+package com.example.chattutoria1android.Chat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.Sampler
 import android.util.Log
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chattutoria1android.Database.ChatLog
 import com.example.chattutoria1android.Database.SingleChatRoomRef
-import com.example.chattutoria1android.Friends.FriendsAdapter
 import com.example.chattutoria1android.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import org.jetbrains.anko.custom.async
-import org.jetbrains.anko.toast
 import java.lang.NullPointerException
-import java.sql.Timestamp
 
-class ChatRoomActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
 
@@ -45,6 +39,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
     // local var for Rv
     lateinit var chatLogs: ArrayList<ChatLog>
+    lateinit var userList: ArrayList<String>
 
 
     //    provided Uid : Single Chat Room
@@ -53,17 +48,22 @@ class ChatRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_room)
 
+//        hide action bar
         if (supportActionBar != null) {
             supportActionBar!!.hide()
         }
 
+//        init firebase auth
         auth = Firebase.auth
         checkAuth()
+
+
         mySingleChatRoomsListReference =
             Firebase.database.getReference("Users/${auth.currentUser!!.uid}/ChatRooms/Single")
         mySingleChatRoomsListReference.keepSynced(true)
 
         chatLogs = arrayListOf()
+        userList = arrayListOf()
 
 //        get data from intent
         chatRoomsReference = Firebase.database.getReference("ChatRooms")

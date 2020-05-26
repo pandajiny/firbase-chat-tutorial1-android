@@ -1,4 +1,4 @@
-package com.example.chattutoria1android.Chat.ChatList
+package com.example.chattutoria1android.ChatList
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,8 +16,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.tonicartos.superslim.LayoutManager
-import org.jetbrains.anko.toast
 
 class ChatListActivity : AppCompatActivity() {
 
@@ -44,7 +42,7 @@ class ChatListActivity : AppCompatActivity() {
 
 //        init local chat list val
         chatList = arrayListOf()
-        viewAdapter = ChatListAdapter(chatList)
+        viewAdapter = ChatListAdapter(chatList, this)
 
         getChatRoomList()
 
@@ -90,11 +88,6 @@ class ChatListActivity : AppCompatActivity() {
 
     private fun setAdapter() {
         val viewManager = LinearLayoutManager(this)
-        viewManager.reverseLayout = true
-
-        chatList.add(SingleChatRoomRef("ddd", "ddd"))
-
-        chatList.add(SingleChatRoomRef("ddd", "ddd"))
 
         val chatListRV = findViewById<RecyclerView>(R.id.chatListRV)
         chatListRV.apply {
@@ -102,6 +95,5 @@ class ChatListActivity : AppCompatActivity() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        chatList.add(SingleChatRoomRef("ddd", "ddd"))
     }
 }
