@@ -15,4 +15,7 @@
     <string name="profile_default_email_text">##EMAIL@DOT.COM##</string>
     <string name="profile_default_status_text">##STATUS##</string>
 
+
+    <string name="settings_title">Settings</string>
+
 </resources>

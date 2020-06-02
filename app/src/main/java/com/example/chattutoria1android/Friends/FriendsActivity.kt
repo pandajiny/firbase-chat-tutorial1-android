@@ -13,6 +13,7 @@ import com.example.chattutoria1android.CustomFirebaseFunctions.OnGetDataListener
 import com.example.chattutoria1android.Database.UserProfile
 import com.example.chattutoria1android.Profile.ProfileActivity
 import com.example.chattutoria1android.R
+import com.example.chattutoria1android.settings.SettingsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -54,6 +55,7 @@ class FriendsActivity : AppCompatActivity() {
         auth = Firebase.auth
         checkAuth()
 
+
 //        init local friends array list
         friendsProfileList = arrayListOf()
 
@@ -70,7 +72,13 @@ class FriendsActivity : AppCompatActivity() {
 //        set adapter for friends List RV as profile list
         viewAdapter = ProfileListAdapter(friendsProfileList, this)
         setAdapter()
+
+//        set onclick listener
+        findViewById<ImageButton>(R.id.friendsSettingImageButton).setOnClickListener {
+            startSettingsActivity()
+        }
     }
+
 
     private fun checkAuth() {
         if (auth.currentUser == null) {
@@ -151,5 +159,12 @@ class FriendsActivity : AppCompatActivity() {
         val intent = Intent(this, ProfileActivity::class.java)
         intent.putExtra("uid", uid)
         startActivity(intent)
+        finish()
+    }
+
+    private fun startSettingsActivity() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
 //        set Onclick Listener to GoogleSingInButton
-        findViewById<SignInButton>(R.id.google_sign_in_button).setOnClickListener {
+        findViewById<TextView>(R.id.loginGoogleText).setOnClickListener {
             doSignInWithGoogle()
         }
     }
@@ -73,13 +73,11 @@ class LoginActivity : AppCompatActivity() {
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
 //               If Error occurred, errorText will display Error message
-                findViewById<TextView>(R.id.errorText).text = e.message
             }
         }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
-
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
 //            if successfully firebase logged in,

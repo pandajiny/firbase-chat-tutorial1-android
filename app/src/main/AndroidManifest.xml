@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.chattutoria1android.ChatList.ChatListActivity"></activity>
+        <activity android:name=".settings.SettingsActivity"></activity>
+        <activity android:name=".ChatList.ChatListActivity" />
         <activity android:name=".Chat.ChatActivity" />
         <activity android:name=".Friends.FriendsActivity" />
         <activity android:name=".Profile.ProfileEditActivity" />

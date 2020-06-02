@@ -5,45 +5,52 @@
     android:id="@+id/chatLogComponenetLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/black"
     tools:context=".Chat.ChatLogComponentFragment">
 
     <TextView
         android:id="@+id/chatLogSenderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="sender"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@+id/chatLogProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/chatLogProfileImage" />
 
     <TextView
         android:id="@+id/chatLogContentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="content"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatLogSenderText" />
+        app:layout_constraintBottom_toBottomOf="@+id/chatLogProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/chatLogProfileImage" />
 
     <TextView
         android:id="@+id/chatLogTimestampText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:text="timestamp"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+    <ImageView
+        android:id="@+id/chatLogProfileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_person_outline_black_24dp"
+        android:tint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatLogContentText" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
