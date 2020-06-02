@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                             startFriendsActivity()
                         } else {
                             toast("Profile Data Broken!")
+                            startProfileEditActivity()
 //                            error handling
                         }
                     } else {
@@ -76,6 +77,15 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+    }
+
+    private fun startProfileEditActivity() {
+        startActivity(
+            Intent(this, ProfileEditActivity::class.java).putExtra(
+                "uid",
+                auth.currentUser!!.uid
+            )
+        )
     }
 
     private fun updateUI(profile: UserProfile) {
